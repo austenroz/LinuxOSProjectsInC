@@ -1,0 +1,211 @@
+---------------------------------------------------
+project1c (custom shell) readme file
+
+date last modified: 11/20/2017
+developed by: Austen Rozanski
+
+---------------------------------------------------
+How to compile the project:
+
+The project can be compiled using the gcc compiler
+and using the command:
+
+gcc -o <name of executable> -g project1c.c
+
+where the <name of executable> is filled in with
+the name you wish the compiled executable file 
+to have. If <name of executable> is left blank,
+and the -o is ommitted, the executable will be 
+named a.out.
+
+Alternatively, you can use the make file.
+
+---------------------------------------------------
+Using the make file:
+
+There are 3 commands within the make file.
+
+make
+
+make all
+
+make clean
+
+make will compile the code and create an executable.
+make all will do the same as make.
+make clean will delete any previously made
+executables named 1c.
+
+The executable will be named 1c.
+
+---------------------------------------------------
+How to run the custom shell:
+
+To run the shell, enter ./ followed by the name you
+gave the executable. For example, if you compiled
+using the command: gcc -g project1c.c customShell,
+you would use:
+
+./customShell
+
+to run the custom shell.
+
+If you compiled using the make file, the name of the
+executable will be 1c and you will use:
+
+./1c
+
+to run the custom shell.
+
+---------------------------------------------------
+List of internal commands:
+
+below is a list of commands followed by a short
+description. The format of the below is:
+
+command : description
+
+cd : prints the current working directory
+cd <directory> : changes the directory to <directory>
+clr : clears the screen
+dir : displays all files in current working directory
+dir <directory> : displays all files in <directory>
+environ : displays all the environment variables and
+          their associated values
+echo <string> : outputs the string to the console
+pause : will pause the operation of the shell until
+	enter is pressed.
+help : output the readme file
+quit : quit out of the custom shell.
+
+---------------------------------------------------
+External commands:
+
+Any command that could be entered into the default
+shell will also work in this custom shell.
+
+---------------------------------------------------
+Background program execution:
+
+This shell supports background program execution.
+In order to use this, end a line of input with a &
+character. As an example:
+
+<commands> <parameters> &
+
+Background program execution allows you to enter 
+seperate commands while that program is running.
+
+INTERNAL COMMANDS THAT DO NOT WORK WITH BACKGROUND EXECUTION:
+cd
+echo
+environ
+pause
+quit
+
+---------------------------------------------------
+I/O Redirection:
+
+This shell supports I/O redirection. I/O redirection
+allows the commands to read input from a file instead
+of the standard input stream or to output to a file
+instead of the standard output stream.
+
+For input redirection, use the < character followed
+by the path of the file you want to use as input. This
+should be input after your command and parameters.
+Example:
+
+<command> <parameters> < <file path>
+
+For output redirection, you can choose to use >> to
+concatenate your output after what exists within the
+file, or > to overwrite what exists in the file.
+Both of these commands must by followed by the path
+to the file to output to. If a file does not exist,
+one will be created.
+Examples:
+
+<command> <parameters> >> <file path>
+<command> <parameters> > <file path>
+
+INTERNAL COMMANDS THAT DO NOT WORK WITH I/O Redirection:
+cd
+echo
+pause
+quit
+
+--------------------------------------------------
+Running batch files from command line input:
+
+In order to run a batch file using this custom shell,
+include the name of the batch file when running the 
+executable. For example, if the name of your batch
+file is batchfile.bash and the name of your executable
+is 1c, the line
+
+./1c batchfile.bash
+
+This will run all the commands within the bash file
+and then exit from the custom shell.
+
+---------------------------------------------------
+Process execution:
+
+Processes are run using fork to create a child process
+which is then executed. This allows for the execution of
+processes in the background. 
+
+---------------------------------------------------
+List of known bugs:
+
+None. I'm sure some exist, but any I have found have
+been fixed.
+
+---------------------------------------------------
+Answers to polishing questions:
+
+1. Check that arguments exist before accessing them.
+
+arguments are checked for both the initial command line input
+when runningthe executable and for any commands while running
+the shell. To check that an argument exists, your can use
+
+if (args[index])
+
+which will return false if the argument does not exist and
+true if it does.
+
+
+2.A. What happends when ctrl+c is pressed during a
+command execution?
+
+Using ctrl+c stops the command execution and causes the
+process to terminate by sending SIGINT.
+
+
+2.B. What happens when ctrl+c is pressed during a 
+user entry command?
+
+Basically the same thing as part A. It will kill the parent
+process which will also kill all of the child processes.
+
+
+2.C. Would SIGINT trapping control this better?
+
+SIGINT trapping would allow for some potentially nicer
+cleanup and allow for some more control when needing
+to kill a process.
+
+3. The code should check the existence/permission of
+input redirection files.
+
+The code does check to make sure that the file both exists
+and has the correct permissions.
+
+4. Check makefile works.
+
+All three commands in the makefile work as intended.
+
+
+
